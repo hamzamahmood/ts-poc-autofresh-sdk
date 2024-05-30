@@ -12,8 +12,7 @@ const client = new Client({
     },
     timeout: 0,
 });
-  
-  
+
 testOAuthToken();
 
 function testOAuthToken(){
