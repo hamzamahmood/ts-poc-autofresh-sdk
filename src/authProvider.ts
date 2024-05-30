@@ -22,7 +22,8 @@ export function createAuthProviderFromConfig(
       requestAuthenticationProvider (
         config.clientCredentialsAuthCredentials.oAuthToken,
         httpCCGTokenProvider(httpCCG, config.clientCredentialsAuthCredentials.oAuthTokenProvider),
-        config.clientCredentialsAuthCredentials.oAuthOnTokenUpdate
+        config.clientCredentialsAuthCredentials.oAuthOnTokenUpdate,
+        config.clientCredentialsAuthCredentials.oAuthConfiguration
     ),
   };
 

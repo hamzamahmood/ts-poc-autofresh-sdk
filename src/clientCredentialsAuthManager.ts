@@ -8,25 +8,30 @@ import { OAuthToken } from './models/oAuthToken';
 import { ClientInterface } from "./clientInterface";
 import { OAuthAuthorizationController} from './controllers/oAuthAuthorizationController';
 import { OAuthScopeEnum } from './models/oAuthScopeEnum';
+import { OAuthConfiguration } from './configuration';
 
 export class ClientCredentialsAuthManager {
   private _oAuthClientId: string;
   private _oAuthClientSecret: string;
   private _oAuthScopes?: OAuthScopeEnum[];
+  private _oAuthConfiguration?: OAuthConfiguration;
   private _oAuthController: OAuthAuthorizationController;
 
   constructor({
     oAuthClientId,
     oAuthClientSecret,
     oAuthScopes,
+    oAuthConfiguration,
   }:{
     oAuthClientId: string,
     oAuthClientSecret: string,
     oAuthScopes?: OAuthScopeEnum[],
+    oAuthConfiguration?: OAuthConfiguration
   }, client: ClientInterface) {
     this._oAuthClientId = oAuthClientId;
     this._oAuthClientSecret = oAuthClientSecret;
     this._oAuthScopes = oAuthScopes;
+    this._oAuthConfiguration = oAuthConfiguration;
     this._oAuthController = new OAuthAuthorizationController(client);
   }
 
@@ -42,9 +47,13 @@ export class ClientCredentialsAuthManager {
   }
 
   public isExpired(oAuthToken: OAuthToken) {
+    const currentTime = Date.now() / 1000;
+    const adjustedTime = this._oAuthConfiguration?.clockSkew != null ?
+     currentTime - this._oAuthConfiguration?.clockSkew : currentTime;
+  
     return (
       typeof oAuthToken.expiry !== 'undefined' &&
-      oAuthToken.expiry < Date.now() / 1000
+      oAuthToken.expiry < adjustedTime
     );
   }
 
