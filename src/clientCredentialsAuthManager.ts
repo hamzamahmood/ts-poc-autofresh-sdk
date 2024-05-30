@@ -47,14 +47,19 @@ export class ClientCredentialsAuthManager {
   }
 
   public isExpired(oAuthToken: OAuthToken) {
-    const currentTime = Date.now() / 1000;
-    const adjustedTime = this._oAuthConfiguration?.clockSkew != null ?
-     currentTime - this._oAuthConfiguration?.clockSkew : currentTime;
-  
-    return (
-      typeof oAuthToken.expiry !== 'undefined' &&
-      oAuthToken.expiry < adjustedTime
-    );
+    if (typeof oAuthToken.expiry === 'undefined') {
+      return false; // Expiry is undefined, token cannot be expired
+    }
+
+    let tokenExpiry = oAuthToken.expiry;
+
+    // Adjust expiration time if clockSkew is provided and oAuthToken.expiry is not undefined
+    if (this._oAuthConfiguration &&
+      typeof this._oAuthConfiguration.clockSkew === 'number') {
+      tokenExpiry -= BigInt(this._oAuthConfiguration.clockSkew); // Subtract clockSkew from expiry
+    }
+
+    return tokenExpiry < Date.now() / 1000;
   }
 
   public async fetchToken(
