@@ -29,6 +29,7 @@ export interface Configuration {
     oAuthTokenProvider?: (lastOAuthToken: OAuthToken | undefined,
       authManager: ClientCredentialsAuthManager) => Promise<OAuthToken>;
     oAuthOnTokenUpdate?: (token: OAuthToken) => void;
+    clockSkew?: number;
   };
   httpClientOptions?: Partial<HttpClientOptions>;
   unstable_httpClientOptions?: any;

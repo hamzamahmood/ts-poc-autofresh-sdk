@@ -7,6 +7,7 @@
 import {
   compositeAuthenticationProvider,
   requestAuthenticationProvider,
+  OAuthConfiguration,
 } from './authentication';
 import { ClientCredentialsAuthManager } from './clientCredentialsAuthManager';
 import { Configuration } from './configuration';
@@ -22,7 +23,10 @@ export function createAuthProviderFromConfig(
       requestAuthenticationProvider (
         config.clientCredentialsAuthCredentials.oAuthToken,
         httpCCGTokenProvider(httpCCG, config.clientCredentialsAuthCredentials.oAuthTokenProvider),
-        config.clientCredentialsAuthCredentials.oAuthOnTokenUpdate
+        config.clientCredentialsAuthCredentials.oAuthOnTokenUpdate,
+        {
+          clockSkew: config.clientCredentialsAuthCredentials.clockSkew
+        } as OAuthConfiguration
     ),
   };
 
