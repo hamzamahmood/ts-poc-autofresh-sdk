@@ -29,15 +29,9 @@ export interface Configuration {
     oAuthTokenProvider?: (lastOAuthToken: OAuthToken | undefined,
       authManager: ClientCredentialsAuthManager) => Promise<OAuthToken>;
     oAuthOnTokenUpdate?: (token: OAuthToken) => void;
-    oAuthConfiguration?: OAuthConfiguration;
   };
   httpClientOptions?: Partial<HttpClientOptions>;
   unstable_httpClientOptions?: any;
-}
-
-/** An interface for OAuth configuration */
-export interface OAuthConfiguration {
-  clockSkew?: number;
 }
 
 /** Environments available for API */
