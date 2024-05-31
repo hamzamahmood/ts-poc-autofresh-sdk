@@ -6,9 +6,7 @@ const client = new Client({
     clientCredentialsAuthCredentials: {
       oAuthClientId: '23',
       oAuthClientSecret: 'tQNSqQlXBIwZcY9auoujQ57ckDcoh3t8UPbBRkSF',
-      oAuthConfiguration: {
-        clockSkew: 3600,
-      }
+      clockSkew: 3600,
     },
     timeout: 0,
 });
