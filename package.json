@@ -44,7 +44,7 @@
     "@apimatic/authentication-adapters": "^0.5.0",
     "@apimatic/axios-client-adapter": "^0.3.0",
     "@apimatic/core": "^0.10.0",
-    "@apimatic/oauth-adapters": "file:D:/sources/core-lib/apimatic-js-runtime/packages/oauth-adapters",
+    "@apimatic/oauth-adapters": "^0.4.1",
     "@apimatic/schema": "^0.7.0"
   },
   "bugs": {

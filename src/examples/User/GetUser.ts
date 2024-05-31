@@ -1,28 +1,43 @@
 import {
+  ApiError,
   Client,
+  OAuthScopeEnum,
   UserController,
 } from '../../../src';
 
 const client = new Client({
   clientCredentialsAuthCredentials: {
-    oAuthClientId: '23',
-    oAuthClientSecret: 'tQNSqQlXBIwZcY9auoujQ57ckDcoh3t8UPbBRkSF',
-    oAuthConfiguration: {
-      clockSkew: 3600,
-    }
+    oAuthClientId: 'OAuthClientId',
+    oAuthClientSecret: 'OAuthClientSecret',
+    oAuthToken: {
+      accessToken: 'AccessToken',
+      tokenType: 'SandboxToken',
+      expiresIn: BigInt(3600),
+      refreshToken: 'RefreshToken',
+    },
+    oAuthScopes: [
+      OAuthScopeEnum.ReadScope,
+      OAuthScopeEnum.WriteScope
+    ]
   },
   timeout: 0,
 });
 
 const userController = new UserController(client);
 
-getUsers();
-
-async function getUsers() {
+async () => {
   try {
-    const result = await userController.getUser();
-    console.log(result);
+    // @ts-expect-error: unused variables
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { result, ...httpResponse } = await userController.getUser();
+    // Get more response info...
+    // const { statusCode, headers } = httpResponse;
   } catch (error) {
-    console.log(error);
+    if (error instanceof ApiError) {
+      // @ts-expect-error: unused variables
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const errors = error.result;
+      // const { statusCode, headers } = error;
+    }
   }
-}
+};
